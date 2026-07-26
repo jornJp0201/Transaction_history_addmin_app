@@ -27,7 +27,7 @@ Spring Boot と Thymeleaf を使用して構築された、管理者向けの取
 
 ### バックエンド
 - **Java**: 17+
-- **Framework**: Spring Boot 3.x
+- **Framework**: Spring Boot 3.5
   - Spring Data JPA
   - Spring Validation
   - Spring MVC
