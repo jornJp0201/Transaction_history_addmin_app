@@ -460,7 +460,13 @@
                                 <td th:text="${result.active}">isActive</td>
                                 <td>
                                     <a th:href="@{/customers/edit/{id}(id=${result.customerId})}" class="btn-edit">編集</a>
-                                    <a th:href="@{/customers/delet/{id}(id=${result.customerId})}" class="btn-delete">削除</a>
+                                    <!-- テーブル内の削除ボタン部分 -->
+                                    <form th:action="@{/customers/delete/{id}(id=${result.customerId})}" th:method="delete" style="display:inline;">
+                                        <button type="submit" class="btn-delete" onclick="return confirm('本当に削除しますか？');">
+                                            削除
+                                        </button>
+                                    </form>
+                                    
                                 </td>
                             </tr>
                             
