@@ -368,7 +368,7 @@
     <div class="container">
         <!-- Header -->
         <div class="page-header">
-            <h1>顧客一覧（管理者用）</h1>
+            <h1>取引管理 一覧（管理者用）</h1>
             <div class="header-actions">
                 <a th:href="@{/customers/create}" class="btn-action">＋ 新規登録</a>
                 <!--<a th:href="@{/customers/edit}" class="btn-action btn-secondary">顧客情報の編集</a>-->
@@ -414,10 +414,10 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <!-- クライアントID ソート -->
+                                <!--取引ID ソート -->
                                 <th>
                                     <a th:href="@{/customers/table(keyword=${keyword}, active=${active}, sortField='customerId', sortDir=${sortField == 'customerId' ? reverseSortDir : 'asc'})}" class="sort-link">
-                                        クライアントID
+                                        取引ID
                                         <span th:if="${sortField == 'customerId'}" th:text="${sortDir == 'asc' ? ' ▲' : ' ▼'}" style="color: var(--primary-color); font-weight: bold;"></span>
                                         <span th:unless="${sortField == 'customerId'}" style="color: #94a3b8; font-size: 12px;"> ⇅</span>
                                     </a>
@@ -450,7 +450,6 @@
                         </thead>
 
                         <tbody>
-                            <!-- Javaの resultList を繰り返し描画 -->
                             <tr th:each="result : ${resultList}">
                                 <td th:text="${result.customerId}">Id</td>
                                 <td th:text="${result.customerName}">name</td>
@@ -460,7 +459,7 @@
                                 <td th:text="${result.active}">isActive</td>
                                 <td>
                                     <a th:href="@{/customers/edit/{id}(id=${result.customerId})}" class="btn-edit">編集</a>
-                                    <!-- テーブル内の削除ボタン部分 -->
+                                    
                                     <form th:action="@{/customers/delete/{id}(id=${result.customerId})}" th:method="delete" style="display:inline;">
                                         <button type="submit" class="btn-delete" onclick="return confirm('本当に削除しますか？');">
                                             削除

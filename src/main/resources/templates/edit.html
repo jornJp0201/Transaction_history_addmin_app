@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>顧客情報の編集 - 顧客管理システム</title>
+    <title>顧客情報の編集 - 取引管理システム</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -207,16 +207,13 @@
             <a th:href="@{/customers/table}" class="btn-back">← 一覧に戻る</a>
         </div>
 
-        <!-- フォームカード -->
         <div class="form-card">
-            <!-- 編集保存用のアクション先（更新ロジックに合わせて適宜パスを調整してください） -->
             <form th:action="@{/customers/create/All/Save}" method="post">
                 
-                <!-- 顧客ID（主キー hidden 保持 ＆ 確認用読み取り専用表示） -->
                 <input type="hidden" name="customerId" th:value="${customerEntity.customerId}">
                 
                 <div class="form-group">
-                    <label class="form-label">クライアントID</label>
+                    <label class="form-label">取引ID</label>
                     <input type="text" class="input-field" th:value="${customerEntity.customerId}" readonly>
                 </div>
 
