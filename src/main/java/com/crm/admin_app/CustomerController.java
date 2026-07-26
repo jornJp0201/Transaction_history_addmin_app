@@ -1,17 +1,12 @@
 package com.crm.admin_app;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.data.domain.Page;      // 👈 追加
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -141,7 +136,7 @@ public class CustomerController {
         
     }
 
-    @GetMapping("/delet/{id}")
+    @DeleteMapping("/delete/{id}")
     public String getMethodName(
         @PathVariable("id") Long id,
         Model model
@@ -159,57 +154,4 @@ public class CustomerController {
 
 }
 
-
-@Service
-@Transactional
-class CustomerService{
-    private final CostomerRepository costomerRepository;
-
-    public CustomerService(CostomerRepository costomerRepository){
-        this.costomerRepository = costomerRepository;
-    }
-
-    @Transactional
-    public void saveCustomer(CustomerEntity customerEntity){//顧客用法の保存
-        costomerRepository.save(customerEntity);
-    }
-    @Transactional(readOnly = true)
-    public  List<CustomerEntity> outputCustomer(){ //顧客情報の出力
-        return costomerRepository.findAll();
-    }
-
-    @Transactional
-    public CustomerEntity getCustomerId(long id){
-        CustomerEntity customerIn = costomerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("指定された顧客IDが存在しません: " + id));
-        return customerIn;
-    }
-
-    @Transactional
-    public void deleteCustomer(Long id) {
-    // 💡 これだけで DELETE FROM customer WHERE customer_id = ? のSQLが走ります
-    costomerRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<CustomerEntity> searchCustomers(String keyword, Boolean active, int page, int size, String sortField, String sortDir) {
-        
-        // 1. ソート方向の設定
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) 
-                ? Sort.by(sortField).ascending() 
-                : Sort.by(sortField).descending();
-
-        // 2. ページ情報（何ページ目か、1ページあたりの件数、ソート）をまとめる
-        // ※Springのページは 0 スタートなので注意
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-
-        String name = (keyword == null) ? "" : keyword;
-
-        // 3. 検索実行（Pageオブジェクトが返ってくる）
-        if (active != null) {
-            return costomerRepository.findByCustomerNameContainingAndActive(name, active, pageable);
-        } else {
-            return costomerRepository.findByCustomerNameContaining(name, pageable);
-        }
-    }
-}
 
